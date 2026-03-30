@@ -17,13 +17,42 @@
    scheduler to produce an ordered daily care plan, including 
    a brief explanation of why each task was selected and when 
    it happens.
-   
+
+### Classes and Responsibilities
+- **Owner** — holds the owner's name and a list of their pets.
+  Responsible for managing pet registration.
+
+- **Pet** — holds the pet's name, species, age, and task list.
+  Responsible for managing its own care tasks.
+
+- **Task** — holds a single care task's details (title, duration,
+  priority, recurring flag). Responsible for representing one
+  unit of pet care.
+
+- **Scheduler** — holds a reference to a Pet and builds a daily
+  schedule from its tasks. Responsible for sorting, conflict
+  detection, and explaining the plan.
+
 **b. Design changes**
+After asking Copilot to review the skeleton, it flagged six issues.
+I made the following changes:
 
-- Did your design change during implementation?
-- If yes, describe at least one change and why you made it.
+1. Replaced priority str with a Priority Enum — prevents typos like
+   "High" or "urgent" from silently breaking sort logic.
 
----
+2. Added time_of_day field to Task — enables basic conflict detection
+   (e.g. two "morning" tasks that overlap).
+
+3. Added __post_init__ validation to Task and Pet — catches invalid
+   values like negative age or zero-duration tasks early.
+
+4. Changed get_tasks() and get_pets() to return copies — prevents
+   external code from accidentally mutating internal state.
+
+I skipped the ScheduledTask suggestion for now because it adds
+complexity before the core logic is implemented. I will revisit
+it in Phase 3 if explain_plan() needs richer output.
+
 
 ## 2. Scheduling Logic and Tradeoffs
 

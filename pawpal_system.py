@@ -1,6 +1,16 @@
 
 from dataclasses import dataclass, field
 from typing import List
+from enum import Enum
+
+
+# ----------------------------
+# Priority Enum
+# ----------------------------
+class Priority(Enum):
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
 
 
 # ----------------------------
@@ -10,8 +20,13 @@ from typing import List
 class Task:
     title: str
     duration_minutes: int
-    priority: str          # "low", "medium", or "high"
+    priority: Priority
     recurring: bool = False
+    time_of_day: str = "anytime"  # "morning", "afternoon", "evening", "anytime"
+
+    def __post_init__(self):
+        if self.duration_minutes <= 0:
+            raise ValueError("duration_minutes must be greater than 0")
 
     def is_high_priority(self) -> bool:
         """Return True if this task has high priority."""
@@ -32,12 +47,16 @@ class Pet:
     age: int
     tasks: List[Task] = field(default_factory=list)
 
+    def __post_init__(self):
+        if self.age < 0:
+            raise ValueError("age cannot be negative")
+
     def add_task(self, task: Task) -> None:
         """Add a task to this pet's task list."""
         pass
 
     def get_tasks(self) -> List[Task]:
-        """Return all tasks for this pet."""
+        """Return a copy of all tasks for this pet."""
         pass
 
 
@@ -54,7 +73,7 @@ class Owner:
         pass
 
     def get_pets(self) -> List[Pet]:
-        """Return all pets for this owner."""
+        """Return a copy of all pets for this owner."""
         pass
 
 
