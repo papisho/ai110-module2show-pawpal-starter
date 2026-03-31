@@ -70,3 +70,18 @@ These algorithms prioritize **clarity and simplicity** for educational value:
 - Non-blocking warnings to maintain user control and flexibility
 
 See [PHASE4_STEP5_ANALYSIS.md](PHASE4_STEP5_ANALYSIS.md) for algorithm tradeoff discussions and design rationale.
+
+## Testing PawPal+
+
+Run the automated test suite with:
+
+```bash
+python -m pytest
+```
+
+Current tests cover the most important algorithmic behaviors:
+- Sorting correctness: verifies tasks are returned in chronological order.
+- Recurrence logic: verifies completing a daily task creates a new task for the next day.
+- Conflict detection: verifies duplicate task times are flagged with warning messages.
+
+Confidence Level: 5/5 stars based on consistently passing test runs.
